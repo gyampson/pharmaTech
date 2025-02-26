@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Parkinsans:wght@300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+:root {
+  /* Primary Colors */
+  --color-primary: #00796B;
+  --color-background: #F5F7FA;
+  --color-accent: #FF6B35;
+  
+  /* Secondary Colors */
+  --color-secondary-1: #A8E6CF;
+  --color-secondary-2: #DDBDF1;
+  
+  /* Text Colors */
+  --text-primary: #2C3E50;
+  --text-secondary: #647687;
+  --text-light: #FFFFFF;
+  
+  /* Spacing System */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  
+  /* Typography */
+  --font-heading: "Parkinsans", serif;
+  --font-body: 'Open Sans', sans-serif;
+  --font-size-base: 16px;
+  
+  /* Borders & Shadows */
+  --border-radius: 4px;
+  --shadow-small: 0 2px 5px rgba(0,0,0,0.1);
+  --shadow-medium: 0 4px 10px rgba(0,0,0,0.15);
+}
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--text-light);
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #005a4f; /* Slightly darker variant */
+}
+
+.btn-accent {
+  background-color: var(--color-accent);
+  /* Similar styling */
+}
+.card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-small);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+/* Base glass card styling */
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  
+  /* Optional light reflection effect */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle shine to enhance glass effect */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: all 0.5s;
+}
+
+/* Subtle hover animation */
+.glass-card:hover::before {
+  left: 100%;
+}
+
+/* Inner content styling */
+.glass-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Different glass tint variations based on card purpose */
+.glass-card-primary {
+  background: rgba(0, 121, 107, 0.1); /* Tinted with primary color */
+}
+
+.glass-card-accent {
+  background: rgba(255, 107, 53, 0.05); /* Tinted with accent color */
+}
+
+/* For dark sections where you need better contrast */
+.glass-card-dark {
+  background: rgba(44, 62, 80, 0.3);
+  color: var(--text-light);
+}
