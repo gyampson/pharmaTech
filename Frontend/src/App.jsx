@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Pharmacists from "./pages/Pharmacists";
+import Patients from "./pages/Patients";
+import Contacts from "./pages/Contacts";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Header from "./pages/Header";
+import Footer from "./pages/Footer";
+import ScrollTop from "./ScrollTop";
+import Particles from "./Particles";
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+     <Particles />
+      <Header />
+      <ScrollTop />
+      {/* Add particles effect */}
+      <Routes>    
+        {/* Define your routes */}
+        <Route path="/" element={<Home />} /> {/* Route for Home page */}
+        <Route path="/pharmacists" element={<Pharmacists />} />
+        <Route path="/patients" element={<Patients />} />
+        <Route path="/contact" element={<Contacts />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        {/* Add more routes as needed */}
+      </Routes>
+      <Footer />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
