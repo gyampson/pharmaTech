@@ -1,8 +1,10 @@
 // LoginPage.jsx
-import  { useState } from 'react';
+import  { useState, } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { loginUser } from "../../services/authServices";
+
 import './Login.css';
 
 const LoginPage = () => {
@@ -12,32 +14,47 @@ const LoginPage = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [ successMessage, setSuccessMessage] = useState("");
+
   const navigate = useNavigate();
+
+
 
   const { email, password } = formData;
 
+ 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
+    setSuccessMessage(""); // ✅ Clear previous success messages
 
     if (!email || !password) {
-      setError('Please fill in all fields');
+      setError("Please fill in all fields");
       return;
     }
 
     try {
       setLoading(true);
-      setTimeout(() => {
-        console.log('Login successful', formData);
-        navigate('/dashboard');
-        setLoading(false);
-      }, 1500);
+      const data = await loginUser({ email, password });
+
+      if (data?.user) {  // ✅ Ensure login was successful
+        localStorage.setItem("userData", JSON.stringify(data.user));
+
+        setSuccessMessage("Login successful! Redirecting..."); // ✅ Show success message
+
+        setTimeout(() => {
+          navigate(data.user.role === "pharmacist" ? "/pharmacists" : "/patients");
+        }, 3000); // ✅ Redirect after 2 seconds
+      } else {
+        setError("Login failed. Please try again.");
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || "Login failed.");
+    } finally {
       setLoading(false);
     }
   };
@@ -77,6 +94,8 @@ const LoginPage = () => {
           >
             <h1>Welcome Back</h1>
             <p className="auth-subtitle">Sign in to your MandyPharmaTech account</p>
+            {successMessage && <div className="alert alert-success">{successMessage}</div>}
+            {error && <div className="alert alert-error">{error}</div>}
 
             <AnimatePresence>
               {error && (

@@ -1,22 +1,26 @@
-// RegisterPage.jsx
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaUser, FaEnvelope, FaLock, FaCheckCircle } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
-import './Register.css';
+import { useState,  } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser, FaEnvelope, FaLock, FaCheckCircle, FaUserTag } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+// import AuthContext from "../../context/AuthContext";
+import { registerUser } from "../../services/authServices";
+import "./Register.css";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "",  // Added role field
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const { username, email, password, confirmPassword } = formData;
+
+  const { username, email, password, confirmPassword, role } = formData;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,30 +28,38 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-
-    if (!username || !email || !password || !confirmPassword) {
-      setError('Please fill in all fields');
+    setError("");
+    setSuccessMessage(""); // ✅ Clear previous success messages
+  
+    if (!username || !email || !password || !confirmPassword || !role) {
+      setError("Please fill in all fields");
       return;
     }
-
+  
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
-
+  
     try {
       setLoading(true);
-      setTimeout(() => {
-        console.log('Registration successful', formData);
-        navigate('/login');
-        setLoading(false);
-      }, 1500);
+      const data = await registerUser({ name: username, email, password, role });
+  
+      if (data?.user) {  // ✅ Check if user was created successfully
+        setSuccessMessage("Registration successful! Redirecting to login...");
+        setTimeout(() => navigate("/login"), 2000);  // ✅ Show message for 2 seconds, then redirect
+      } else {
+        setError("User registration failed. Please try again.");
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError(err.response?.data?.message || "Registration failed");
+    } finally {
       setLoading(false);
     }
   };
+  
+  
+  
 
   return (
     <motion.div
@@ -84,6 +96,9 @@ const RegisterPage = () => {
           >
             <h1>Create Account</h1>
             <p className="auth-subtitle">Sign up for MandyPharmaTech</p>
+            {successMessage && <div className="alert alert-success">{successMessage}</div>}
+              {error && <div className="alert alert-error">{error}</div>}
+
 
             <AnimatePresence>
               {error && (
@@ -165,14 +180,31 @@ const RegisterPage = () => {
                 />
               </div>
 
+              {/* Role Selection Field */}
+              <div className="form-group">
+                <label htmlFor="role">
+                  <FaUserTag className="form-icon" /> Select Role
+                </label>
+                <select
+                  id="role"
+                  name="role"
+                  className="form-control"
+                  value={role}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">-- Choose Role --</option>
+                  <option value="pharmacist">Pharmacist</option>
+                  <option value="patient">Patient</option>
+                </select>
+              </div>
+
               <button
                 type="submit"
-                className={`btn btn-primary btn-block ${
-                  loading ? 'btn-loading' : ''
-                }`}
+                className={`btn btn-primary btn-block ${loading ? "btn-loading" : ""}`}
                 disabled={loading}
               >
-                {loading ? 'Signing up...' : 'Sign Up'}
+                {loading ? "Signing up..." : "Sign Up"}
               </button>
             </form>
 
