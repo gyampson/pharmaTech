@@ -3,6 +3,7 @@ import { Link,  } from "react-router-dom";
 import {  FaBars, FaTimes } from "react-icons/fa";
 import "./Header.css";
 
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -26,12 +27,12 @@ const Header = () => {
             </Link>
           </div>
 
-          <div className="mobile-toggle glass-card " onClick={toggleMenu}>
-            {isMenuOpen ? <FaTimes className="times" /> : <FaBars className="times" />}
+          <div className="mobile-toggle " onClick={toggleMenu}>
+            {isMenuOpen ? <FaTimes /> : <FaBars />}
           </div>
             
           <nav className={`nav ${isMenuOpen ? "active" : ""}`} >
-            <ul className="nav-links ">
+            <ul className="nav-links  ">
               <li>
                 <Link to="/" onClick={() => setIsMenuOpen(false)}>
                   Home

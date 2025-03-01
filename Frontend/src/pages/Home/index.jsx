@@ -10,14 +10,16 @@ import {
   FaHeartbeat,
 } from "react-icons/fa";
 import "./Home.css";
+
 // import Testimonials from "../../Testimonials";
 const HomePage = () => {
   return (
     <div className="">
       {/* Hero Section */}
-      <section className="glass-card">
-        <div className="container">
-          <div className="hero-content">
+
+      <section className="section-header">
+        <div className="glass-card">
+          <div className="hero-content ">
             <div className="hero-text shine">
               <h6 className="shine" >Revolutionizing Pharmacy Management</h6>
               <p className="slide-in shine">
@@ -33,6 +35,14 @@ const HomePage = () => {
                   Learn More
                 </Link>
               </div>
+              <div className="hero-buttons slide-in">
+                <Link to="/pharmacists" className="btn ">
+                  Get Started
+                </Link>
+                <Link to="/patients" className="btn btn-outline">
+                  Learn More
+                </Link>
+              </div>
             </div>
             <div className="hero-image fade-in">
               <img
@@ -45,7 +55,7 @@ const HomePage = () => {
       </section>
 
       {/* Features Section */}
-      <section className=" glass-card">
+      <section className=" glass-card ">
         <div className="">
           <div className="section-header ">
             <h2 >Our Features</h2>

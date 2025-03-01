@@ -33,7 +33,10 @@
   --shadow-small: 0 2px 5px rgba(0,0,0,0.1);
   --shadow-medium: 0 4px 10px rgba(0,0,0,0.15);
 }
-
+html{
+  font-family: "Parkinsans", serif;
+  background-color: var(--color-background);
+}
 body{
   font-family: "Parkinsans", serif;
 }
@@ -78,6 +81,7 @@ body{
 }
 /* Base glass card styling */
 .glass-card {
+  font-family: "Parkinsans", serif;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -127,7 +131,11 @@ body{
 }
 
 .glass-card-accent {
-  background: rgba(255, 107, 53, 0.05); /* Tinted with accent color */
+  background: rgba(17, 205, 48, 0.7);
+  border: 1px solid rgba(255, 255, 255, 3);
+  border-radius: 4px;
+  box-shadow: 10px 4px 30px 20px rgba(177, 18, 18, 0.1);
+  
 }
 
 /* For dark sections where you need better contrast */
