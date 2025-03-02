@@ -1,13 +1,9 @@
 /* Login.css - Responsive Design */
 
 .auth-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 20px; /* Add padding for mobile screens */
+ 
+  font-family: "Parkinsans", serif;
+ 
 }
 
 .container {
@@ -26,6 +22,7 @@
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.18);
   margin: auto; /* Center the container */
+  font-family: "Parkinsans", serif;
 }
 
 .auth-image {
@@ -81,6 +78,7 @@
 .auth-form {
   display: flex;
   flex-direction: column;
+  font-family: "Parkinsans", serif;
 }
 
 .form-group {
@@ -105,6 +103,7 @@ label {
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s ease;
+  font-family: "Parkinsans", serif;
 }
 
 .form-control:focus {
@@ -118,6 +117,7 @@ label {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  font-family: "Parkinsans", serif;
 }
 
 .remember-me {
@@ -260,6 +260,17 @@ select.form-control {
     align-items: center;
 
   }
+  .remember-me {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .remember-me label {
+    margin-left: 5px;
+    font-weight: normal;
+  }
+  
 }
 @media (min-width: 1024px) { /* Desktop */
   .container {

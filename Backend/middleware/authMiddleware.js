@@ -13,3 +13,19 @@ export const protect = (req, res, next) => {
     res.status(401).json({ message: "No token provided" });
   }
 };
+export const pharmacistOnly = (req, res, next) => {
+  if (req.user && req.user.role === "pharmacist") {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied. Pharmacists only." });
+  }
+};
+
+export const patientOnly = (req, res, next) => {
+  if (req.user && req.user.role === "patient") {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied. Patients only." });
+  }
+};
+

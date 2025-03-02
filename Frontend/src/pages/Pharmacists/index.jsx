@@ -6,11 +6,11 @@ import {
   rejectPrescription,
   getInventory,
 } from "../../services/pharmacistsService";
-import { Pill, Users, Clock, AlertCircle, CheckCircle } from "lucide-react";
-import { mockInventory, mockPatients, mockPrescriptions } from "../../data";
+import { Pill} from "lucide-react";
+// import { mockInventory, mockPatients, mockPrescriptions } from "../../data";
 import { format } from "date-fns";
-import Sidebar from "../../Sidebar";
-
+import Sidebar from "../../Components/Sidebar";
+import "./Pharmacists.css";
 const PharmacistDashboard = () => {
   const [user, setUser] = useState(null);
   const [prescriptions, setPrescriptions] = useState([]);
@@ -69,9 +69,11 @@ const PharmacistDashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <h1>Welcome, {user?.name} (Pharmacist)</h1>
-      <Sidebar />
+    <div className=" ">  
+    <Sidebar />
+    <div className="pharmacists-container glass-card">
+      <h1>Welcome,   Dr.  {user?.name} </h1>
+      
       {/* ✅ Display Inventory Stats */}
       <div className="stats-grid">
         <div className="stat-card">
@@ -122,6 +124,7 @@ const PharmacistDashboard = () => {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

@@ -30,25 +30,27 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setSuccessMessage(""); // ✅ Clear previous success messages
-
+    setSuccessMessage("");
+  
     if (!email || !password) {
-      setError("Please fill in all fields");
+      setError("Please fill in all fields.");
       return;
     }
-
+  
     try {
       setLoading(true);
       const data = await loginUser({ email, password });
-
-      if (data?.user) {  // ✅ Ensure login was successful
-        localStorage.setItem("userData", JSON.stringify(data.user));
-
-        setSuccessMessage("Login successful! Redirecting..."); // ✅ Show success message
-
+  
+      if (data?.user && data?.token) {  // ✅ Ensure user & token exist
+        const userData = { ...data.user, token: data.token }; // ✅ Store token with user data
+  
+        localStorage.setItem("userData", JSON.stringify(userData)); // ✅ Save full user object
+  
+        setSuccessMessage("Login successful! Redirecting...");
+        
         setTimeout(() => {
-          navigate(data.user.role === "pharmacist" ? "/pharmacists" : "/patients");
-        }, 3000); // ✅ Redirect after 2 seconds
+          navigate(userData.role === "pharmacist" ? "/pharmacists" : "/patients");
+        }, 2000); // ✅ Redirect after 2 seconds
       } else {
         setError("Login failed. Please try again.");
       }
@@ -58,6 +60,7 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <motion.div
@@ -95,7 +98,7 @@ const LoginPage = () => {
             <h1>Welcome Back</h1>
             <p className="auth-subtitle">Sign in to your MandyPharmaTech account</p>
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
-            {error && <div className="alert alert-error">{error}</div>}
+           
 
             <AnimatePresence>
               {error && (

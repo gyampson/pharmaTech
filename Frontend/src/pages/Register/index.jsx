@@ -63,7 +63,7 @@ const RegisterPage = () => {
 
   return (
     <motion.div
-      className=""
+      className="auth-page"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -97,7 +97,7 @@ const RegisterPage = () => {
             <h1>Create Account</h1>
             <p className="auth-subtitle">Sign up for MandyPharmaTech</p>
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
-              {error && <div className="alert alert-error">{error}</div>}
+             
 
 
             <AnimatePresence>

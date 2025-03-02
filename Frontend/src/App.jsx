@@ -10,6 +10,10 @@ import Header from "./pages/Header";
 import Footer from "./pages/Footer";
 import ScrollTop from "./ScrollTop";
 import Particles from "./Particles";
+import PatientsDashboard from "./PatientsPage/Dashboard"
+import PatientsSettings from "./PatientsPage/Settings"
+import Dashboard from "./PharmacistsPage/Dashboard"
+import Settings from "./PharmacistsPage/Settings"
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Layout component to handle conditional rendering of Header & Footer
@@ -17,7 +21,7 @@ function Layout({ children }) {
   const location = useLocation();
 
   // Define paths where Header & Footer should NOT be shown
-  const hideHeaderFooter = ["/pharmacists", "/patients"].includes(location.pathname);
+  const hideHeaderFooter = ["/pharmacists", "/patients" , "/pharmacists/dashboard", "/pharmacists/settings",  "/patients/dashboard", "/patients/settings"].includes(location.pathname);
 
   return (
     <>
@@ -46,6 +50,14 @@ function App() {
           <Route path="/contact" element={<Contacts />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/pharmacists/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}
+          />
+          <Route path="/pharmacists/settings" element={<ProtectedRoute><Settings/></ProtectedRoute>}
+          />
+           <Route path="/patients/dashboard" element={<ProtectedRoute><PatientsDashboard/></ProtectedRoute>}
+          />
+          <Route path="/patients/settings" element={<ProtectedRoute><PatientsSettings/></ProtectedRoute>}
+          />
           <Route
             path="/dashboard"
             element={

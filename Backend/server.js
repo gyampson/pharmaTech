@@ -3,12 +3,17 @@ import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
+import pharmacistRoutes from "./routes/pharmacists.js";
+import patientRoutes from "./routes/patients.js";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use("/api/pharmacist", pharmacistRoutes);
+app.use("/api/patient", patientRoutes);
+
 
 mongoose
   .connect(process.env.MONGO_URI)
