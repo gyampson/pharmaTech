@@ -37,6 +37,19 @@ export const bookAppointment = async (appointmentData, token) => {
   return response.data;
 };
 
+
+export const cancelAppointment = async (id, token) => {
+  const response = await axios.delete(
+    `http://localhost:5000/api/patient/appointments/${id}/cancel`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return response.data;
+};
+
+
+
 // ✅ Request a prescription refill
 export const requestRefill = async (id, token) => {
   const response = await axios.post(`${API_URL}/prescriptions/${id}/refill`, {}, {

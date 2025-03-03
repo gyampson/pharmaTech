@@ -1,0 +1,176 @@
+/* Ensure styles are only applied to the booking page */
+.booking-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.booking-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: "Parkinsans", serif;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  
+  /* Optional light reflection effect */
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-header h1 {
+  font-size: 4rem;
+}
+
+.booking-form {
+  gap: 1rem;
+  text-align: center;
+  font-family: "Parkinsans", serif;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  /* Optional light reflection effect */
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-form.label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  padding: 90px;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.appointments-list{
+  font-family: "Parkinsans", serif;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  
+  /* Optional light reflection effect */
+  position: relative;
+  overflow: hidden;
+  
+}
+.appointments-list h2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.booking-form input {
+  padding: 10px;
+  width: 200px;
+  border: 1px solid black;
+  border-radius: var(--border-radius);
+  font-family: "Parkinsans", serif;
+  font-size: 1rem;
+}
+
+.booking-form input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 30px rgba(58, 134, 255, 0.2);
+  
+}
+
+
+
+.booking-button:hover {
+  background-color: #005a4f;
+}
+
+
+.appointment-card {
+  background: var(--bg-light);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid var(--color-primary);
+}
+
+.appointment-card h3{
+  color: black;
+}
+.appointment-card p{
+  color: #4CAF50;
+}
+.appointment-card p1{
+  color: blueviolet;
+}
+
+/* Notification Styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-weight: bold;
+  z-index: 1000;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.notification.success {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.notification.error {
+  background-color: #f44336;
+  color: white;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    top: 10px;
+  }
+  to {
+    opacity: 1;
+    top: 20px;
+  }
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+  .booking-page {
+    padding: 1rem;
+  }
+  .appointment-card {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 10%;
+  }
+}
+
+@media (max-width: 400px) {
+  .booking-page {
+    padding: 0.5rem;
+  }
+  .booking-form.label {
+    padding: 0px;
+  }
+}

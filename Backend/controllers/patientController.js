@@ -31,7 +31,11 @@ export const markMedicationTaken = async (req, res) => {
 // ✅ Fetch patient appointments
 export const getPatientAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.find({ patient: req.user.id });
+    const appointments = await Appointment.find({
+      patient: req.user.id,
+      status: "scheduled", // ✅ Fetch only scheduled appointments
+    });
+
     res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ message: "Error fetching appointments", error });
@@ -59,6 +63,27 @@ export const bookAppointment = async (req, res) => {
     res.status(201).json({ message: "Appointment booked successfully", newAppointment });
   } catch (error) {
     res.status(500).json({ message: "Error booking appointment", error });
+  }
+};
+// ✅ Cancel an appointment
+export const cancelAppointments = async (req, res) => {
+  try {
+    const appointment = await Appointment.findById(req.params.id);
+
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    if (appointment.patient.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Unauthorized to cancel this appointment" });
+    }
+
+    appointment.status = "cancelled";
+    await appointment.save();
+
+    res.status(200).json({ message: "Appointment cancelled successfully", appointment });
+  } catch (error) {
+    res.status(500).json({ message: "Error cancelling appointment", error });
   }
 };
 

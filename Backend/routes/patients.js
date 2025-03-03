@@ -1,6 +1,6 @@
 import express from "express";
 import { protect, patientOnly } from "../middleware/authMiddleware.js";
-import { getPatientPrescriptions, markMedicationTaken, requestRefill,getPatientAppointments, bookAppointment } from "../controllers/patientController.js";
+import { getPatientPrescriptions, markMedicationTaken, requestRefill,getPatientAppointments, bookAppointment, cancelAppointments } from "../controllers/patientController.js";
 
 const router = express.Router();
 
@@ -15,6 +15,9 @@ router.get("/appointments", protect, patientOnly, getPatientAppointments);
 
 // ✅ Book a new appointment
 router.post("/appointments/book", protect, patientOnly, bookAppointment);
+
+// ✅ Cancel an appointment
+router.delete("/appointments/:id/cancel", protect, patientOnly, cancelAppointments);
 
 // ✅ Request a prescription refill
 router.post("/prescriptions/:id/refill", protect, patientOnly, requestRefill);

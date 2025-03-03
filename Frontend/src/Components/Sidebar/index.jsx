@@ -85,7 +85,7 @@ const PharmacistSidebar = ({ onSidebarToggle }) => {
           </li>
           <li
             className="menu-item"
-            onClick={() => handleNavigation("/pharmacists/dashboard")}
+            onClick={() => handleNavigation("/pharmacists/patients")}
           >
             <Users size={20} />
             {isOpen && <span className="menu-item-text">Patients</span>}
@@ -100,7 +100,7 @@ const PharmacistSidebar = ({ onSidebarToggle }) => {
           </li>
           <li
             className="menu-item"
-            onClick={() => handleNavigation("/pharmacists/appointments")}
+            onClick={() => handleNavigation("/pharmacists/settings")}
           >
             <Settings size={20} />
             {isOpen && <span className="menu-item-text">Settings</span>}

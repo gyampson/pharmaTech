@@ -3,14 +3,15 @@ import { createContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    return JSON.parse(localStorage.getItem("userData") || "{}");
+  });
 
   useEffect(() => {
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      setUser(JSON.parse(userData)); // Store role
+    if (user?.token) {
+      localStorage.setItem("userData", JSON.stringify(user));
     }
-  }, []);
+  }, [user]);
 
   const logout = () => {
     localStorage.removeItem("userData");

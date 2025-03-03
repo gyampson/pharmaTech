@@ -1,11 +1,28 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
 
-const ProtectedRoute = ({ children }) => {
-  const { user } = useContext(AuthContext);
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const [user, setUser] = useState(() => {
+    return JSON.parse(localStorage.getItem("userData") || "{}");
+  });
 
-  return user ? children : <Navigate to="/login" />;
+  useEffect(() => {
+    console.log("🔵 Checking protected route user:", user);
+  }, [user]);
+
+  if (!user?.token) {
+    console.error("❌ No token found. Redirecting to login...");
+    return <Navigate to="/login" />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    console.error(
+      `❌ Unauthorized role (${user.role}). Redirecting to login...`
+    );
+    return <Navigate to="/login" />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

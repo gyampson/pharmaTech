@@ -9,6 +9,13 @@ export const getPendingPrescriptions = async (token) => {
   });
   return response.data;
 };
+// ✅ Fetch upcoming appointments
+export const getPatientAppointments = async (token) => {
+  const response = await axios.get(`${API_URL}/appointments`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
 
 // ✅ Approve a prescription refill
 export const approvePrescription = async (id, token) => {
