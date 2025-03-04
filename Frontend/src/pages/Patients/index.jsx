@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getPatientPrescriptions, getPatientAppointments } from "../../services/patientService";
 import { Pill, Calendar, RefreshCw, AlertCircle } from "lucide-react";
-import PatientsSidebar from "../../Components/PatientsSidebar";
 
 const PatientDashboard = () => {
   const [user, setUser] = useState(null);
@@ -39,7 +38,7 @@ const PatientDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <PatientsSidebar />
+     
       <div className="stats-grid glass-card">
         <h1>Welcome, {user?.name || "Patient"}</h1>
         {loading ? (

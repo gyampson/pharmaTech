@@ -8,6 +8,7 @@
     transition: transform 2s ease-in-out, opacity 0.5s ease-in-out;
     overflow-y: auto;
     overflow-x: hidden;
+    cursor: pointer;
   }
   
   .sidebar.patient {
@@ -79,10 +80,15 @@
     display: flex;
     align-items: center;
     transition: background-color 0.2s;
+    
   }
   
   .menu-item:hover {
     background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(3px);
+   
   }
   
   .menu-item-text {
@@ -107,7 +113,10 @@
   }
   
   .footer-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(3px);
+    background: rgba(21, 19, 19, 0.5);
   }
   
   .footer-text {

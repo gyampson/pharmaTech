@@ -46,7 +46,7 @@ const PatientSidebar = ({ onSidebarToggle }) => {
           </button>
         </div>
         <ul className="menu-container">
-          <li className="menu-item" onClick={() => handleNavigation("/patients/dashboard")}>
+          <li className="menu-item" onClick={() => handleNavigation("/patients")}>
             <Home size={20} />
             {isOpen && <span className="menu-item-text">Dashboard</span>}
           </li>
@@ -54,29 +54,29 @@ const PatientSidebar = ({ onSidebarToggle }) => {
             <Pill size={20} />
             {isOpen && <span className="menu-item-text">Prescriptions</span>}
           </li>
-          <li className="menu-item" onClick={() => handleNavigation("/patients/appointments")}>
+          <li className="menu-item" onClick={() => handleNavigation("/patients/dashboard")}>
             <Calendar size={20} />
             {isOpen && <span className="menu-item-text">Appointments</span>}
           </li>
-          <li className="menu-item" onClick={() => handleNavigation("/patients/dashboard")}>
+          <li className="menu-item" onClick={() => handleNavigation("/patients/pharmacy")}>
             <ShoppingBag size={20} />
             {isOpen && <span className="menu-item-text">Pharmacy</span>}
           </li>
-          <li className="menu-item" onClick={() => handleNavigation("/patients/prescriptions")}>
+          <li className="menu-item" onClick={() => handleNavigation("/patients/history")}>
             <Clock size={20} />
             {isOpen && <span className="menu-item-text">History</span>}
           </li>
-          <li className="menu-item" onClick={() => handleNavigation("/patients/appointments")}>
+          <li className="menu-item" onClick={() => handleNavigation("/patients/messages")}>
             <MessageSquare size={20} />
             {isOpen && <span className="menu-item-text">Messages</span>}
           </li>
-          <li className="menu-item" onClick={() => handleNavigation("/patients/appointments")}>
+          <li className="menu-item" onClick={() => handleNavigation("/patients/inventory")}>
             <PanelTopInactiveIcon size={20} />
             {isOpen && <span className="menu-item-text">Inventory</span>}
           </li>
         </ul>
         <div className="footer-contain">
-          <div className="footer-item" onClick={() => handleNavigation("/login")}>
+          <div className="footer-item" onClick={() => handleNavigation("/patients/inventory")}>
             <User size={20} />
             {isOpen && <span className="footer-text">Profile</span>}
           </div>

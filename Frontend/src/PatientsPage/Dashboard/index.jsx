@@ -4,7 +4,7 @@ import {
   bookAppointment,
   cancelAppointment,
 } from "../../services/patientService";
-import "./PatientsDashboard.css"; // ✅ Now using the scoped styles
+import "./PatientsDashboard.css"; // ✅ Now using the scoped styleFs
 import { useNavigate } from "react-router-dom";
 const PatientDashboard = () => {
   const [user, setUser] = useState(() => {

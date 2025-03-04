@@ -64,7 +64,7 @@ const PharmacistSidebar = ({ onSidebarToggle }) => {
         <ul className="menu-container">
           <li
             className="menu-item"
-            onClick={() => handleNavigation("/pharmacists/dashboard")}
+            onClick={() => handleNavigation("/pharmacists")}
           >
             <Home size={20} />
             {isOpen && <span className="menu-item-text">Dashboard</span>}
@@ -107,11 +107,11 @@ const PharmacistSidebar = ({ onSidebarToggle }) => {
           </li>
         </ul>
         <div className="footer-contain">
-          <div className="footer-item">
+          <div className="footer-item" onClick={() => handleNavigation("/pharmacists/profile")}>
             <User size={20} />
             {isOpen && <span className="footer-text">Profile</span>}
           </div>
-          <div className="footer-item">
+          <div className="footer-item" onClick={() => handleNavigation("/login")}>
             <LogOut size={20} />
             {isOpen && <span className="footer-text">Logout</span>}
           </div>

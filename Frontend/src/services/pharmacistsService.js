@@ -17,6 +17,16 @@ export const getPatientAppointments = async (token) => {
   return response.data;
 };
 
+
+export const getPharmacistAppointments = async (token) => {
+  const response = await axios.get("http://localhost:5000/api/pharmacist/appointments", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return response.data;
+};
+
+
 // ✅ Approve a prescription refill
 export const approvePrescription = async (id, token) => {
   const response = await axios.patch(`${API_URL}/prescriptions/${id}/approve`, {}, {

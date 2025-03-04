@@ -1,6 +1,6 @@
 import express from "express";
 import { protect, pharmacistOnly } from "../middleware/authMiddleware.js";
-import { getPendingPrescriptions, approvePrescription, rejectPrescription, getInventory } from "../controllers/pharmacistsController.js";
+import { getPendingPrescriptions, approvePrescription, rejectPrescription, getPharmacistAppointments, getInventory } from "../controllers/pharmacistsController.js";
 
 const router = express.Router();
 
@@ -16,4 +16,5 @@ router.patch("/prescriptions/:id/reject", protect, pharmacistOnly, rejectPrescri
 // ✅ Get pharmacist inventory data
 router.get("/inventory", protect, pharmacistOnly, getInventory);
 
+router.get("/appointments", protect, pharmacistOnly, getPharmacistAppointments);
 export default router;

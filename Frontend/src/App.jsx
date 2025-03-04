@@ -10,31 +10,50 @@ import Header from "./pages/Header";
 import Footer from "./pages/Footer";
 import ScrollTop from "./ScrollTop";
 import Particles from "./Particles";
-import PatientsDashboard from "./PatientsPage/Dashboard"
-import PatientsSettings from "./PatientsPage/Settings"
-import Dashboard from "./PharmacistsPage/Dashboard"
-import Settings from "./PharmacistsPage/Settings"
+import Sidebar from "./Components/Sidebar";
+import PatientsSidebar from "./Components/PatientsSidebar";
+import PatientsDashboard from "./PatientsPage/Dashboard";
+import PatientsSettings from "./PatientsPage/Settings";
+import PatientsAppointments from "./PatientsPage/Appointments";
+import PatientsHistory from "./PatientsPage/History";
+import PatientsInventory from "./PatientsPage/Inventory";
+import PatientsMessages from "./PatientsPage/Messages";
+import PatientsPharmacy from "./PatientsPage/Pharmacy";
+import PatientsPrescription from "./PatientsPage/Prescription";
+import PatientsProfile from "./PatientsPage/Profile";
+import Dashboard from "./PharmacistsPage/Dashboard";
+import Settings from "./PharmacistsPage/Settings";
+import Patient from "./PharmacistsPage/Patients";
+import Messages from "./PharmacistsPage/Messages";
+import Prescription from "./PharmacistsPage/Prescription";
+import Profile from "./PharmacistsPage/Profile";
+import Appointments from "./PharmacistsPage/Appointments";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// Layout component to handle conditional rendering of Header & Footer
+// Layout component for conditional rendering
 function Layout({ children }) {
   const location = useLocation();
 
   // Define paths where Header & Footer should NOT be shown
-  const hideHeaderFooter = ["/pharmacists", "/patients" , "/pharmacists/dashboard", "/pharmacists/settings",  "/patients/dashboard", "/patients/settings"].includes(location.pathname);
+  const hideHeaderFooter = location.pathname.startsWith("/patients") || location.pathname.startsWith("/pharmacists");
+  const showPatientsSidebar = location.pathname.startsWith("/patients");
+  const showPharmacistsSidebar = location.pathname.startsWith("/pharmacists");
 
   return (
     <>
       <Particles />
       {!hideHeaderFooter && <Header />}
       <ScrollTop />
-      {children} {/* Render children inside Layout */}
+      <div style={{ display: "flex" }}>
+        {showPatientsSidebar && <PatientsSidebar />}
+        {showPharmacistsSidebar && <Sidebar />}
+        <div style={{ flex: 1 }}>{children}</div>
+      </div>
       {!hideHeaderFooter && <Footer />}
     </>
   );
 }
 
-// **Fix: Add PropTypes validation for children**
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 };
@@ -50,30 +69,26 @@ function App() {
           <Route path="/contact" element={<Contacts />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/pharmacists/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}
-          />
-          <Route path="/pharmacists/settings" element={<ProtectedRoute><Settings/></ProtectedRoute>}
-          />
-           <Route path="/patients/dashboard" element={<ProtectedRoute><PatientsDashboard/></ProtectedRoute>}
-          />
-          <Route path="/patients/settings" element={<ProtectedRoute><PatientsSettings/></ProtectedRoute>}
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute allowedRoles={["pharmacist"]}>
-                <Pharmacists />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/patients"
-            element={
-              <ProtectedRoute allowedRoles={["patient"]}>
-                <Patients />
-              </ProtectedRoute>
-            }
-          />
+          
+          {/* Patients Routes */}
+          <Route path="/patients/dashboard" element={<ProtectedRoute><PatientsDashboard /></ProtectedRoute>} />
+          <Route path="/patients/settings" element={<ProtectedRoute><PatientsSettings /></ProtectedRoute>} />
+          <Route path="/patients/appointments" element={<ProtectedRoute><PatientsAppointments /></ProtectedRoute>} />
+          <Route path="/patients/history" element={<ProtectedRoute><PatientsHistory /></ProtectedRoute>} />
+          <Route path="/patients/inventory" element={<ProtectedRoute><PatientsInventory /></ProtectedRoute>} />
+          <Route path="/patients/messages" element={<ProtectedRoute><PatientsMessages /></ProtectedRoute>} />
+          <Route path="/patients/pharmacy" element={<ProtectedRoute><PatientsPharmacy /></ProtectedRoute>} />
+          <Route path="/patients/prescription" element={<ProtectedRoute><PatientsPrescription /></ProtectedRoute>} />
+          <Route path="/patients/profile" element={<ProtectedRoute><PatientsProfile /></ProtectedRoute>} />
+          
+          {/* Pharmacists Routes */}
+          <Route path="/pharmacists/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/pharmacists/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+          <Route path="/pharmacists/patients" element={<ProtectedRoute><Patient /></ProtectedRoute>} />
+          <Route path="/pharmacists/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+          <Route path="/pharmacists/prescription" element={<ProtectedRoute><Prescription /></ProtectedRoute>} />
+          <Route path="/pharmacists/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/pharmacists/appointments" element={<ProtectedRoute><Appointments /></ProtectedRoute>} />
         </Routes>
       </Layout>
     </BrowserRouter>

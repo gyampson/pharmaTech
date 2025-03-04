@@ -1,5 +1,6 @@
 import Prescription from "../models/Prescription.js";
 import Inventory from "../models/Inventory.js";
+import Appointment from "../models/Appointment.js";
 
 // ✅ Fetch pending prescriptions
 export const getPendingPrescriptions = async (req, res) => {
@@ -26,6 +27,21 @@ export const approvePrescription = async (req, res) => {
     res.status(200).json({ message: "Prescription approved successfully", prescription });
   } catch (error) {
     res.status(500).json({ message: "Error approving prescription", error });
+  }
+};
+
+
+export const getPharmacistAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointment.find({ status: "scheduled" }).populate("patient", "name email");
+
+    if (!appointments || appointments.length === 0) {
+      return res.status(404).json({ message: "No scheduled appointments found" });
+    }
+
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching appointments", error });
   }
 };
 

@@ -1,130 +1,55 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getPendingPrescriptions,
-  approvePrescription,
-  rejectPrescription,
-  getInventory,
-} from "../../services/pharmacistsService";
-import { Pill} from "lucide-react";
-// import { mockInventory, mockPatients, mockPrescriptions } from "../../data";
-import { format } from "date-fns";
-import Sidebar from "../../Components/Sidebar";
+import { getPharmacistAppointments } from "../../services/pharmacistsService";
 import "./Pharmacists.css";
+
 const PharmacistDashboard = () => {
-  const [user, setUser] = useState(null);
-  const [prescriptions, setPrescriptions] = useState([]);
-  const [inventory, setInventory] = useState([]);
   const navigate = useNavigate();
+  const [user] = useState(() =>
+    JSON.parse(localStorage.getItem("userData") || "{}")
+  );
+  const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("userData") || "{}");
-    if (!storedUser || storedUser.role !== "pharmacist") {
+    if (!user?.token || user.role !== "pharmacist") {
+      console.error("❌ No valid token found. Redirecting to login...");
       navigate("/login");
     } else {
-      setUser(storedUser);
-      fetchPrescriptions(storedUser.token);
-      fetchInventory(storedUser.token);
+      fetchAppointments();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
-  const fetchPrescriptions = async (token) => {
+  const fetchAppointments = async () => {
     try {
-      const data = await getPendingPrescriptions(token);
-      setPrescriptions(data);
+      console.log("🔵 Fetching pharmacist appointments...");
+      const data = await getPharmacistAppointments(user.token);
+      setAppointments(data);
     } catch (error) {
-      console.error("Error fetching prescriptions:", error);
-    }
-  };
-
-  const fetchInventory = async (token) => {
-    try {
-      const data = await getInventory(token);
-      setInventory(data);
-    } catch (error) {
-      console.error("Error fetching inventory:", error);
-    }
-  };
-
-  const handleApprove = async (id) => {
-    try {
-      const updatedPrescription = await approvePrescription(id, user.token);
-      setPrescriptions((prev) =>
-        prev.map((p) => (p._id === id ? updatedPrescription.prescription : p))
+      console.error(
+        "❌ Error fetching appointments:",
+        error.response?.data || error.message
       );
-    } catch (error) {
-      console.error("Error approving prescription:", error);
-    }
-  };
-
-  const handleReject = async (id) => {
-    try {
-      const updatedPrescription = await rejectPrescription(id, user.token);
-      setPrescriptions((prev) =>
-        prev.map((p) => (p._id === id ? updatedPrescription.prescription : p))
-      );
-    } catch (error) {
-      console.error("Error rejecting prescription:", error);
     }
   };
 
   return (
-    <div className=" ">  
-    <Sidebar />
-    <div className="pharmacists-container glass-card">
-      <h1>Welcome,   Dr.  {user?.name} </h1>
-      
-      {/* ✅ Display Inventory Stats */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon">
-            <Pill size={24} />
-          </div>
-          <div className="stat-value">{inventory.length}</div>
-          <div className="stat-label">Medications in Stock</div>
-        </div>
-      </div>
-
-      {/* ✅ Display Pending Prescriptions */}
-      <h2>Pending Prescriptions</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Patient</th>
-            <th>Medication</th>
-            <th>Dosage</th>
-            <th>Request Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {prescriptions.map((prescription) => (
-            <tr key={prescription._id}>
-              <td>{prescription.patient.name}</td>
-              <td>{prescription.medication}</td>
-              <td>{prescription.dosage}</td>
-              <td>
-                {format(new Date(prescription.requestDate), "MMM d, yyyy")}
-              </td>
-              <td>{prescription.status}</td>
-              <td>
-                {prescription.status === "pending" && (
-                  <>
-                    <button onClick={() => handleApprove(prescription._id)}>
-                      Approve
-                    </button>
-                    <button onClick={() => handleReject(prescription._id)}>
-                      Reject
-                    </button>
-                  </>
-                )}
-              </td>
-            </tr>
+    <div className="pharmacist-dashboard glass-card">
+      <h1>Welcome, {user?.name || "Pharmacist"}</h1>
+      <h2>Booked Appointments</h2>
+      {appointments.length === 0 ? (
+        <p>No upcoming appointments</p>
+      ) : (
+        <ul>
+          {appointments.map((appointment) => (
+            <li key={appointment._id}>
+              Patient: {appointment.patient?.name} <br />
+              Date: {new Date(appointment.date).toLocaleString()} <br />
+              Location: {appointment.location}
+            </li>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </ul>
+      )}
     </div>
   );
 };
