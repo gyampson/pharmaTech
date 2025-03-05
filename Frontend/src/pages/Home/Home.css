@@ -1,5 +1,6 @@
 .home-page {
     overflow-x: hidden;
+    text-decoration: none;
   }
   
   /* Hero Section */
@@ -40,6 +41,11 @@
   .hero-buttons {
     display: flex;
     gap: 15px;
+    text-decoration: none;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .hero-image {
@@ -384,6 +390,11 @@ h6{
     }
     .hero-buttons {
       justify-content: center;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
     }
     
     .hero-text h1 {

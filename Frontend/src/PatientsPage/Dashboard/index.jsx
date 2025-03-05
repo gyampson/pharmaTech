@@ -4,12 +4,20 @@ import {
   bookAppointment,
   cancelAppointment,
 } from "../../services/patientService";
+import io from "socket.io-client";
 import "./PatientsDashboard.css"; // ✅ Now using the scoped styleFs
 import { useNavigate } from "react-router-dom";
+
+const socket = io("http://localhost:5000", {
+  transports: ["websocket", "polling"],
+});
 const PatientDashboard = () => {
   const [user, setUser] = useState(() => {
     return JSON.parse(localStorage.getItem("userData") || "{}");
   });
+  const [notifications, setNotifications] = useState(
+    JSON.parse(localStorage.getItem("notifications")) || [] // ✅ Load saved notifications
+  );
 
   const [appointments, setAppointments] = useState([]);
   const [formData, setFormData] = useState({
@@ -27,20 +35,65 @@ const PatientDashboard = () => {
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("userData") || "{}");
+  
     if (!storedUser?.token || storedUser.role !== "patient") {
-      console.error("❌ No valid token found.");
-      setNotification({
-        show: true,
-        message: "Authentication error. Please log in again.",
-        type: "error",
-      });
+      console.error("❌ No valid token found. Redirecting to login...");
       navigate("/login");
     } else {
       setUser(storedUser);
-      fetchAppointments(); // ✅ Call the function when the component loads
+      fetchAppointments();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
+    // ✅ Load previous notifications from localStorage
+    const savedNotifications = JSON.parse(localStorage.getItem("notifications")) || [];
+    setNotifications(savedNotifications);
+  
+    if (storedUser?.id) {
+      console.log(`🔵 Listening for notifications on: appointmentUpdate-${storedUser.id}`);
+  
+      const handleNotification = (update) => {
+        console.log("🔔 New notification received:", update);
+  
+        // ✅ Update the UI with the new appointment status
+        setAppointments((prev) =>
+          prev.map((appointment) =>
+            appointment._id === update.id ? { ...appointment, status: update.status } : appointment
+          )
+        );
+  
+        // ✅ Add the new notification & store in localStorage
+        setNotifications((prev) => {
+          const newNotifications = [...prev, update.message];
+          localStorage.setItem("notifications", JSON.stringify(newNotifications));
+          return newNotifications;
+        });
+      };
+  
+      // ✅ Attach socket listener (avoiding duplicates)
+      socket.off(`appointmentUpdate-${storedUser.id}`).on(`appointmentUpdate-${storedUser.id}`, handleNotification);
+    }
+  
+    // ✅ Cleanup function to remove socket listener when component unmounts
+    return () => {
+      if (storedUser?.id) {
+        socket.off(`appointmentUpdate-${storedUser.id}`);
+      }
+    };
   }, [navigate]);
+  
+ // ✅ Function to clear all notifications
+ const clearNotifications = () => {
+  setNotifications([]);
+  localStorage.removeItem("notifications");
+};
+
+// ✅ Function to remove a single notification
+const removeNotification = (index) => {
+  const updatedNotifications = notifications.filter((_, i) => i !== index);
+  setNotifications(updatedNotifications);
+  localStorage.setItem("notifications", JSON.stringify(updatedNotifications));
+};
+
 
   const showNotification = (message, type) => {
     setNotification({ show: true, message, type });
@@ -53,17 +106,25 @@ const PatientDashboard = () => {
     try {
       console.log("🔵 Fetching scheduled appointments...");
       const data = await getPatientAppointments(user.token);
-      
+
       // ✅ Filter out canceled appointments
-      const scheduledAppointments = data.filter(appointment => appointment.status === "scheduled");
-  
+      const scheduledAppointments = data.filter(
+        (appointment) => appointment.status === "scheduled"
+      );
+
       setAppointments(scheduledAppointments); // ✅ Update state with only scheduled appointments
-      localStorage.setItem("appointments", JSON.stringify(scheduledAppointments)); // ✅ Persist only scheduled ones
+      localStorage.setItem(
+        "appointments",
+        JSON.stringify(scheduledAppointments)
+      ); // ✅ Persist only scheduled ones
     } catch (error) {
-      console.error("❌ Error fetching appointments:", error.response?.data || error.message);
+      console.error(
+        "❌ Error fetching appointments:",
+        error.response?.data || error.message
+      );
     }
   };
-  
+
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
 
@@ -108,8 +169,34 @@ const PatientDashboard = () => {
           {notification.message}
         </div>
       )}
+      <div className="notifications glass-card">
+        <h2>Notifications</h2>
+
+        {/* ✅ "Clear All" Button */}
+        {notifications.length > 0 && (
+          <button onClick={clearNotifications} className="clear-btn btn-primary">
+            Clear All Notifications
+          </button>
+        )}
+
+        {notifications.length === 0 ? (
+          <p>No new notifications</p>
+        ) : (
+          <ul>
+            {notifications.map((notif, index) => (
+              <li key={index} className="notif-item">
+                {notif}
+                {/* ✅ Remove Single Notification Button */}
+                <button onClick={() => removeNotification(index)} className="remove-btn btn-secondary">
+                  ❌
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <header className="booking-header shine">
-        <h1>Welcome, {user?.name || "Patient"}</h1>
+        <h1> {user?.name || "Patient"} &rsquo;s Appointments </h1>
         <p>Manage your appointments</p>
       </header>
 

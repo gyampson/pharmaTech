@@ -144,6 +144,50 @@
   color: white;
 }
 
+.notifications {
+ display: flex;
+ justify-content: start;
+ align-items: center;
+ flex-direction: column;
+  padding: 15px;
+  border-radius: 8px;
+  max-width: 500px;
+}
+
+.notif-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.clear-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.clear-btn:hover {
+  background: #b02a37;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
 @keyframes fadeIn {
   from {
     opacity: 0;

@@ -1,6 +1,6 @@
 import express from "express";
 import { protect, pharmacistOnly } from "../middleware/authMiddleware.js";
-import { getPendingPrescriptions, approvePrescription, rejectPrescription, getPharmacistAppointments, getInventory } from "../controllers/pharmacistsController.js";
+import { getPendingPrescriptions, approvePrescription, rejectPrescription, getPharmacistAppointments, getInventory, confirmAppointment, rejectAppointment, rescheduleAppointment,cancelAppointment } from "../controllers/pharmacistsController.js";
 
 const router = express.Router();
 
@@ -17,4 +17,15 @@ router.patch("/prescriptions/:id/reject", protect, pharmacistOnly, rejectPrescri
 router.get("/inventory", protect, pharmacistOnly, getInventory);
 
 router.get("/appointments", protect, pharmacistOnly, getPharmacistAppointments);
+
+router.put("/appointments/:id/confirm", protect, pharmacistOnly, confirmAppointment);
+
+
+router.put("/appointments/:id/reject", protect, pharmacistOnly, rejectAppointment);
+
+
+router.put("/appointments/:id/reschedule", protect, pharmacistOnly, rescheduleAppointment);
+
+router.put("/appointments/:id/cancel", protect, pharmacistOnly, cancelAppointment);
+
 export default router;

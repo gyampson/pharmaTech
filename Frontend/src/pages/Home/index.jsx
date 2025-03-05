@@ -27,21 +27,17 @@ const HomePage = () => {
                 seamless digital platform. Manage prescriptions, track
                 medications, and provide better care.
               </p>
-              <div className="hero-buttons slide-in">
-                <Link to="/register" className="btn ">
+              <div className="hero-buttons ">
+                 
+                <Link to="/register" className="btn btn-primary ">
                   Get Started
                 </Link>
-                <Link to="/about" className="btn btn-outline">
+                
+               
+              <Link to="/" className="btn btn-secondary">
                   Learn More
                 </Link>
-              </div>
-              <div className="hero-buttons slide-in">
-                <Link to="/pharmacists" className="btn ">
-                  Get Started
-                </Link>
-                <Link to="/patients" className="btn btn-outline">
-                  Learn More
-                </Link>
+               
               </div>
             </div>
             <div className="hero-image fade-in">

@@ -7,7 +7,7 @@ const AppointmentSchema = new mongoose.Schema(
     specialty: { type: String, required: true },
     date: { type: Date, required: true },
     location: { type: String, required: true },
-    status: { type: String, enum: ["scheduled", "completed", "cancelled"], default: "scheduled" },
+    status: { type: String, enum: ["scheduled", "rescheduled", "completed","confirmed", "rejected", "cancelled"], default: "scheduled" },
   },
   { timestamps: true }
 );

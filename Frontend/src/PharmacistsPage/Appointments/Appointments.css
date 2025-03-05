@@ -1,0 +1,200 @@
+/* Unique styles for the pharmacist dashboard */
+.pharmacist-dashboard {
+    padding: 20px;
+    background: #f8f9fa;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    
+  }
+  
+  .dashboard-header {
+    
+    
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.15);
+    font-family: "Parkinsans", serif;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    
+    /* Optional light reflection effect */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .section-title {
+   font-size: 30px;
+    margin-top: 20px;
+     font-family: "Parkinsans", serif;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+
+     
+  }
+  
+  .appointments-container {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  
+  /* Optional light reflection effect */
+  position: relative;
+  overflow: hidden;
+  }
+  
+  .appointments-list {
+    list-style: none;
+    padding: 0;
+    
+  }
+  
+  .appointments-card {
+    background: #ecf0f1;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .appointment-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .appointment-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .icon {
+    color: #2980b9;
+  }
+  
+  .status-icon {
+    margin-left: auto;
+    color: #e67e22;
+  }
+  
+  .status-icon.confirmed {
+    color: #27ae60;
+  }
+  
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+   
+  }
+  
+  .empty-state {
+    text-align: center;
+    color: #7f8c8d;
+  }
+  
+
+
+  .appointment-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: rgba(255, 255, 255, 0.2); /* Glassmorphic effect */
+    backdrop-filter: blur(10px);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    flex-wrap: wrap;
+  }
+  
+  .appointment-actions button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  }
+  
+  .appointment-actions button svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .confirm-btn {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: white;
+  }
+  
+  .confirm-btn:hover {
+    transform: scale(1.05);
+    background: #388E3C;
+  }
+  
+  .reject-btn {
+    background: linear-gradient(135deg, #D32F2F, #B71C1C);
+    color: white;
+  }
+  
+  .reject-btn:hover {
+    transform: scale(1.05);
+    background: #C62828;
+  }
+  
+  .reschedule-btn {
+    background: linear-gradient(135deg, #FFC107, #FFA000);
+    color: white;
+  }
+  
+  .reschedule-btn:hover {
+    transform: scale(1.05);
+    background: #FFB300;
+  }
+  
+  .cancel-btn {
+    background: linear-gradient(135deg, #9E9E9E, #616161);
+    color: white;
+  }
+  
+  .cancel-btn:hover {
+    transform: scale(1.05);
+    background: #757575;
+  }
+  
+  input[type="datetime-local"] {
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  
+  input[type="datetime-local"]:focus {
+    border-color: #2196F3;
+    outline: none;
+    box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+  }
+  
