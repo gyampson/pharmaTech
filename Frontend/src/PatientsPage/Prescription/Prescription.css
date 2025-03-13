@@ -1,0 +1,126 @@
+.container-prescription {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-family: "Parkinsans", serif;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    align-items: center;
+    /* Optional light reflection effect */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .prescription-card {  
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    color: #2d3748;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2em;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-weight: 500;
+  }
+  
+  input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+  
+  input::placeholder {
+    color: #a0aec0;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
+  }
+  
+  .submit-btn:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+  }
+  
+  .message {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .success {
+    background: #c6f6d5;
+    color: #2f855a;
+  }
+  
+  .error {
+    background: #fed7d7;
+    color: #c53030;
+  }
+  
+  @media (max-width: 600px) {
+    .prescription-card {
+      padding: 20px;
+    }
+  
+    h1 {
+      font-size: 1.5em;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .prescription-card {
+      padding: 50px;
+    }
+  
+    h1 {
+      font-size: 1.5em;
+    }
+  }

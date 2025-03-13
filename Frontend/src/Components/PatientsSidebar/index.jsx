@@ -50,7 +50,7 @@ const PatientSidebar = ({ onSidebarToggle }) => {
             <Home size={20} />
             {isOpen && <span className="menu-item-text">Dashboard</span>}
           </li>
-          <li className="menu-item" onClick={() => handleNavigation("/patients/prescriptions")}>
+          <li className="menu-item" onClick={() => handleNavigation("/patients/prescription")}>
             <Pill size={20} />
             {isOpen && <span className="menu-item-text">Prescriptions</span>}
           </li>

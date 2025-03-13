@@ -5,7 +5,7 @@ import { getPendingPrescriptions, approvePrescription, rejectPrescription, getPh
 const router = express.Router();
 
 // ✅ Get pending prescription requests
-router.get("/prescriptions/pending", protect, pharmacistOnly, getPendingPrescriptions);
+router.get("/prescriptions", protect, pharmacistOnly, getPendingPrescriptions);
 
 // ✅ Approve a prescription refill
 router.patch("/prescriptions/:id/approve", protect, pharmacistOnly, approvePrescription);

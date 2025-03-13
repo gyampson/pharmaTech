@@ -1,14 +1,8 @@
 import axios from "axios";
+import { getPendingPrescriptions, approvePrescription, rejectPrescription } from "./prescriptionService";
 
 const API_URL = "http://localhost:5000/api/pharmacist";
 
-// ✅ Fetch pending prescriptions
-export const getPendingPrescriptions = async (token) => {
-  const response = await axios.get(`${API_URL}/prescriptions/pending`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
-};
 // ✅ Fetch upcoming appointments
 export const getPatientAppointments = async (token) => {
   const response = await axios.get(`${API_URL}/appointments`, {
@@ -66,21 +60,29 @@ export const cancelAppointment = async (id, token) => {
   });
 };
 
-// ✅ Approve a prescription refill
-export const approvePrescription = async (id, token) => {
-  const response = await axios.patch(`${API_URL}/prescriptions/${id}/approve`, {}, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
+
+// 📌 Fetch all pending prescriptions
+
+export const fetchPendingPrescriptions = async (token) => {
+  return await getPendingPrescriptions(token);
 };
 
-// ✅ Reject a prescription refill
-export const rejectPrescription = async (id, token) => {
-  const response = await axios.patch(`${API_URL}/prescriptions/${id}/reject`, {}, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
+
+  
+
+// 📌 Approve a prescription
+export const approvePrescriptionRequest = async (id, token) => {
+  return await approvePrescription(id, token);
 };
+
+// 📌 Reject a prescription
+
+export const rejectPrescriptionRequest = async (id, token) => {
+  return await rejectPrescription(id, token);
+};
+
+
+
 
 // ✅ Fetch inventory details
 export const getInventory = async (token) => {
@@ -89,3 +91,6 @@ export const getInventory = async (token) => {
   });
   return response.data;
 };
+
+
+

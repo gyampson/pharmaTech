@@ -71,7 +71,7 @@ const PharmacistSidebar = ({ onSidebarToggle }) => {
           </li>
           <li
             className="menu-item"
-            onClick={() => handleNavigation("/pharmacists/prescriptions")}
+            onClick={() => handleNavigation("/pharmacists/prescription")}
           >
             <Pill size={20} />
             {isOpen && <span className="menu-item-text">Prescriptions</span>}
@@ -93,7 +93,7 @@ const PharmacistSidebar = ({ onSidebarToggle }) => {
           
           <li
             className="menu-item"
-            onClick={() => handleNavigation("/pharmacists/appointments")}
+            onClick={() => handleNavigation("/pharmacists/messages")}
           >
             <MessagesSquare size={20} />
             {isOpen && <span className="menu-item-text">Messages</span>}

@@ -1,22 +1,26 @@
+
+import { getPatientPrescriptions, requestRefill, markMedicationTaken } from "./prescriptionService";
 import axios from "axios";
+
+
+// ✅ Now, you can call `getPatientPrescriptions(token)` instead of defining it again
 
 const API_URL = "http://localhost:5000/api/patient";
 
-// ✅ Fetch patient's prescriptions
-export const getPatientPrescriptions = async (token) => {
-  const response = await axios.get(`${API_URL}/prescriptions`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
+
+export const fetchPrescriptionsForUser = async (token) => {
+  return await getPatientPrescriptions(token);
+};
+export const refillPrescription = async (id, token) => {
+  return await requestRefill(id, token);
 };
 
-// ✅ Mark medication as taken
-export const markMedicationTaken = async (id, token) => {
-  const response = await axios.patch(`${API_URL}/medications/${id}/taken`, {}, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
+export const markMedicationAsTaken = async (id, token) => {
+  return await markMedicationTaken(id, token);
 };
+
+
+
 
 // ✅ Fetch upcoming appointments
 export const getPatientAppointments = async (token) => {
@@ -50,10 +54,4 @@ export const cancelAppointment = async (id, token) => {
 
 
 
-// ✅ Request a prescription refill
-export const requestRefill = async (id, token) => {
-  const response = await axios.post(`${API_URL}/prescriptions/${id}/refill`, {}, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
-};
+

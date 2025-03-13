@@ -79,6 +79,7 @@ const PatientDashboard = () => {
         socket.off(`appointmentUpdate-${storedUser.id}`);
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
   
  // ✅ Function to clear all notifications

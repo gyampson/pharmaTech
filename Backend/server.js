@@ -42,10 +42,15 @@ io.on("connection", (socket) => {
 import authRoutes from "./routes/auth.js";
 import pharmacistRoutes from "./routes/pharmacists.js";
 import patientRoutes from "./routes/patients.js";
+import prescriptionRoutes from "./routes/prescriptions.js";
+
+
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/pharmacist", pharmacistRoutes);
 app.use("/api/patient", patientRoutes);
+app.use("/api/prescriptions", prescriptionRoutes);
 
 // ✅ Start Server
 const PORT = process.env.PORT || 5000;

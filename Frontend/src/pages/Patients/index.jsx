@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPatientPrescriptions, getPatientAppointments } from "../../services/patientService";
+import { fetchPrescriptionsForUser, getPatientAppointments } from "../../services/patientService";
 import { Pill, Calendar, RefreshCw, AlertCircle } from "lucide-react";
 
 const PatientDashboard = () => {
@@ -24,7 +24,7 @@ const PatientDashboard = () => {
     try {
       setLoading(true);
       const [prescriptionData, appointmentData] = await Promise.all([
-        getPatientPrescriptions(token),
+        fetchPrescriptionsForUser(token),
         getPatientAppointments(token),
       ]);
       setPrescriptions(prescriptionData);

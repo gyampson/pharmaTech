@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
 
-const PrescriptionSchema = new mongoose.Schema(
+const prescriptionSchema = new mongoose.Schema(
   {
     patient: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    doctor: { type: String, required: true },
     medication: { type: String, required: true },
     dosage: { type: String, required: true },
     frequency: { type: String, required: true },
-    requestDate: { type: Date, default: Date.now },
     status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
-    completedDate: { type: Date },
+    requested: { type: Boolean, default: false }, // ✅ Track if it's a patient request
+    createdAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
 
-const Prescription = mongoose.model("Prescription", PrescriptionSchema);
-export default Prescription;
+export default mongoose.model("Prescription", prescriptionSchema);
