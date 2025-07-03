@@ -43,10 +43,12 @@ export const approvePrescription = async (id, token) => {
 };
 
 // ✅ Reject a prescription
-export const rejectPrescription = async (id, token) => {
-  const response = await axios.put(`${API_URL}/${id}/reject`, {}, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const rejectPrescription = async (id, reason, token) => {
+  const response = await axios.put(
+    `${API_URL}/${id}/reject`,
+    { reason },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
   return response.data;
 };
 

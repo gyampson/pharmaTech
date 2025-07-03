@@ -1,249 +1,180 @@
-import { useState, useEffect } from "react";
-import { io } from "socket.io-client";
+import { useEffect, useState } from "react";
 import {
-  Clock,
-  CheckCircle2,
-  XCircle,
-  AlertCircle,
-  Search,
-  Filter,
-  MessageSquare,
-} from "lucide-react";
-import {
-  getPendingPrescriptions,
-  approvePrescription,
-  rejectPrescription,
+  getPatientPrescriptions,
+  requestPrescription,
 } from "../../services/prescriptionService";
-import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 import "./Prescription.css";
 
-// Initialize Socket.io connection
 const socket = io("http://localhost:5000");
 
-function PharmacistPrescriptions() {
-  const [prescriptions, setPrescriptions] = useState([]);
+const PatientPrescriptions = () => {
   const [user, setUser] = useState(() =>
     JSON.parse(localStorage.getItem("userData") || "{}")
   );
+  const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("all");
-  const [notifications, setNotifications] = useState([]);
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState("");
-  const [rejectReason, setRejectReason] = useState("");
-  const [showRejectModal, setShowRejectModal] = useState(false);
-  const [rejectingPrescriptionId, setRejectingPrescriptionId] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("userData") || "{}");
-
-    if (!storedUser?.token || storedUser.role !== "pharmacist") {
-      console.error("❌ No valid token found. Redirecting to login...");
-      navigate("/login");
-    } else {
-      setUser(storedUser);
-      fetchPrescriptions(storedUser.token);
-    }
-
-    if (storedUser?.id) {
-      console.log(
-        `🔵 Listening for notifications on: prescriptionUpdate-${storedUser.id}`
-      );
-
-      const handleNotification = (update) => {
-        console.log("🔔 New notification received:", update);
-
-        setNotifications((prev) => [...prev, update.message]);
-
-        setNotificationMessage(update.message);
-        setShowNotification(true);
-        setTimeout(() => setShowNotification(false), 5000);
-      };
-
-      socket
-        .off(`prescriptionUpdate-${storedUser.id}`)
-        .on(`prescriptionUpdate-${storedUser.id}`, handleNotification);
-    }
-
-    return () => {
-      if (storedUser?.id) {
-        socket.off(`prescriptionUpdate-${storedUser.id}`);
-      }
-    };
-  }, [navigate]);
-
-  const fetchPrescriptions = async (token) => {
-    try {
-      console.log("🔵 Fetching prescriptions...");
-
-      const data = await getPendingPrescriptions(token);
-      console.log("✅ Prescriptions fetched:", data);
-
-      setPrescriptions(data);
-    } catch (err) {
-      console.error(
-        "❌ Error fetching prescriptions:",
-        err.response?.data || err.message
-      );
-      setError("Failed to load prescriptions");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleApprove = async (id, patientId) => {
-    try {
-      await approvePrescription(id);
-      setPrescriptions((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, status: "approved" } : p))
-      );
-
-      // Emit real-time notification to the patient
-      socket.emit("prescriptionUpdate", {
-        userId: patientId,
-        message: "✅ Your prescription has been approved!",
-      });
-
-      triggerNotification("Prescription approved successfully");
-    } catch (error) {
-      triggerNotification("Failed to approve prescription", "error");
-    }
-  };
-
-  const handleReject = async (id, patientId) => {
-    if (!rejectReason) {
-      alert("Please provide a reason for rejection.");
-      return;
-    }
-
-    try {
-      await rejectPrescription(id, rejectReason);
-      setPrescriptions((prev) =>
-        prev.map((p) =>
-          p.id === id ? { ...p, status: "rejected", rejectReason } : p
-        )
-      );
-
-      // Emit real-time notification to the patient
-      socket.emit("prescriptionUpdate", {
-        userId: patientId,
-        message: `❌ Your prescription request was rejected. Reason: ${rejectReason}`,
-      });
-
-      triggerNotification("Prescription rejected successfully");
-      setShowRejectModal(false);
-      setRejectReason("");
-    } catch (error) {
-      triggerNotification("Failed to reject prescription", "error");
-    }
-  };
-
-  // Function to trigger pop-up notification
-  const triggerNotification = (message, type = "success") => {
-    setNotificationMessage(message);
-    setShowNotification(true);
-
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 5000);
-  };
-
-  const filteredPrescriptions = prescriptions.filter((prescription) => {
-    const matchesSearch =
-      prescription.patient.name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      prescription.medication.toLowerCase().includes(searchTerm.toLowerCase());
-
-    if (selectedFilter === "all") return matchesSearch;
-    return matchesSearch && prescription.status === selectedFilter;
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
   });
 
+  // Fetch Prescriptions
+  useEffect(() => {
+    setLoading(true);
+
+    const fetchPrescriptions = async () => {
+      if (!user?.token) return;
+      try {
+        console.log("🔵 Fetching prescriptions...");
+        const data = await getPatientPrescriptions(user.token);
+        setPrescriptions(data);
+      } catch (error) {
+        console.error("❌ Error fetching prescriptions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPrescriptions(); // Fetch prescriptions on mount
+
+    if (user?.id) {
+      socket.on(`prescriptionUpdate-${user.id}`, (update) => {
+        console.log("🔔 New notification received:", update);
+
+        // ✅ Update prescriptions in UI
+        setPrescriptions((prev) =>
+          prev.map((p) =>
+            p._id === update.id
+              ? {
+                  ...p,
+                  status: update.status,
+                  rejectReason: update.rejectReason || "No reason provided",
+                }
+              : p
+          )
+        );
+
+        // ✅ Show notification
+        setNotification({ show: true, message: update.message });
+
+        // ✅ Hide notification after 3 seconds
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      });
+    }
+
+    return () => socket.off(`prescriptionUpdate-${user.id}`);
+  }, [user]);
+
+  // Prescription Request Form
+  const [formData, setFormData] = useState({
+    doctor: "",
+    medication: "",
+    dosage: "",
+    frequency: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await requestPrescription(formData, user.token);
+      setFormData({ doctor: "", medication: "", dosage: "", frequency: "" });
+      setNotification({
+        show: true,
+        message: "✅ Prescription request sent successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    } catch (error) {
+      setNotification({ show: true, message: "❌ Failed to send request." });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    }
+  };
+
   return (
-    <div className="app glass-card">
-      {/* ✅ Pop-up Notification */}
-      {showNotification && (
-        <div className="popup-notification">{notificationMessage}</div>
+    <div className="patient-prescriptions glass-card">
+      <h2>📜 Your Prescriptions</h2>
+
+      {/* ✅ Loading Indicator */}
+      {loading ? (
+        <p className="loading-text">Loading prescriptions...</p>
+      ) : prescriptions.length === 0 ? (
+        <p>No prescriptions found.</p>
+      ) : (
+        <ul className="prescription-list">
+          {prescriptions.map((p) => (
+            <li key={p._id} className="prescription-item">
+              <p>
+                <strong>Medication:</strong> {p.medication}
+              </p>
+              <p>
+                <strong>Dosage:</strong> {p.dosage}
+              </p>
+              <p>
+                <strong>Frequency:</strong> {p.frequency}
+              </p>
+              <p>
+                <strong>Status:</strong> {p.status}
+              </p>
+              {p.status === "rejected" && (
+                <p className="reject-reason">
+                  <strong>Rejection Reason:</strong> {p.rejectReason}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
       )}
 
-      <header className="header glass-card">
-        <h1>Pharmacy Prescription Management</h1>
-        <div className="stats">
-          <div className="stat">
-            <Clock size={20} />
-            <span>
-              Pending:{" "}
-              {prescriptions.filter((p) => p.status === "pending").length}
-            </span>
-          </div>
-          <div className="stat">
-            <CheckCircle2 size={20} />
-            <span>
-              Approved:{" "}
-              {prescriptions.filter((p) => p.status === "approved").length}
-            </span>
-          </div>
-          <div className="stat">
-            <XCircle size={20} />
-            <span>
-              Rejected:{" "}
-              {prescriptions.filter((p) => p.status === "rejected").length}
-            </span>
-          </div>
-        </div>
-      </header>
-
-      <div className="prescriptions">
-        {filteredPrescriptions.length === 0 ? (
-          <div className="empty-state">
-            <AlertCircle size={48} />
-            <p>No prescriptions found</p>
-          </div>
-        ) : (
-          filteredPrescriptions.map((prescription) => (
-            <div key={prescription.id} className="prescription-card">
-              <h3>{prescription.medication}</h3>
-              <span className={`status ${prescription.status}`}>
-                {prescription.status}
-              </span>
-              <button
-                onClick={() =>
-                  handleApprove(prescription.id, prescription.patient.id)
-                }
-              >
-                ✅ Approve
-              </button>
-              <button
-                onClick={() => {
-                  setShowRejectModal(true);
-                  setRejectingPrescriptionId(prescription.id);
-                }}
-              >
-                ❌ Reject
-              </button>
-            </div>
-          ))
-        )}
+      {/* ✅ Prescription Request Form */}
+      <div className="request-form">
+        <h3>📝 Request a Prescription</h3>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="doctor"
+            placeholder="Doctor's Name"
+            value={formData.doctor}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="medication"
+            placeholder="Medication"
+            value={formData.medication}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="dosage"
+            placeholder="Dosage"
+            value={formData.dosage}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="frequency"
+            placeholder="Frequency"
+            value={formData.frequency}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Submit Request</button>
+        </form>
       </div>
 
-      {showRejectModal && (
-        <div className="modal">
-          <h3>Provide a reason for rejection</h3>
-          <textarea
-            value={rejectReason}
-            onChange={(e) => setRejectReason(e.target.value)}
-          ></textarea>
-          <button onClick={() => handleReject(rejectingPrescriptionId)}>
-            Submit
-          </button>
-          <button onClick={() => setShowRejectModal(false)}>Cancel</button>
-        </div>
+      {/* ✅ Notification Popup */}
+      {notification.show && (
+        <div className="notification-popup">{notification.message}</div>
       )}
     </div>
   );
-}
+};
 
-export default PharmacistPrescriptions;
+export default PatientPrescriptions;

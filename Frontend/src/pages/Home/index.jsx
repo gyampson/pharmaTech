@@ -10,13 +10,14 @@ import {
   FaHeartbeat,
 } from "react-icons/fa";
 import "./Home.css";
+import MotionReveal from "../../ui/motionReveal";
 
 // import Testimonials from "../../Testimonials";
 const HomePage = () => {
   return (
     <div className="">
       {/* Hero Section */}
-
+     <MotionReveal type="zoom" delay={0.4}>  
       <section className="section-header">
         <div className="glass-card">
           <div className="hero-content ">
@@ -49,6 +50,9 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      </MotionReveal>
+
+      <MotionReveal type="fade" delay={0.2}>  
 
       {/* Features Section */}
       <section className=" glass-card ">
@@ -107,8 +111,10 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      </MotionReveal>
 
       {/* How It Works Section */}
+      <MotionReveal type="slide-up">
       <section className="how-it-works">
         <div className=" glass-card">
           <div className="section-header">
@@ -155,8 +161,11 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      </MotionReveal>
+
 
       {/* Testimonials Section */}
+      <MotionReveal type="zoom" delay={0.4}>
       <section className="testimonials">
         <div className="glass-card">
           <div className="section-header">
@@ -207,8 +216,10 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
+      </MotionReveal>
       {/* CTA Section */}
+
+      <MotionReveal type="fade" delay={0.2}>
       <section className="glass-card">
         <div className="glass-card">
           <div className="glass-card">
@@ -223,6 +234,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      </MotionReveal>
     </div>
   );
 };

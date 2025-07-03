@@ -126,23 +126,30 @@ export const requestPrescription = async (req, res) => {
 export const rejectPrescription = async (req, res) => {
   try {
     const { id } = req.params;
-    const prescription = await Prescription.findById(id);
+    const { reason } = req.body; // ✅ Get reason from request body
 
+    const prescription = await Prescription.findById(id);
     if (!prescription) {
       return res.status(404).json({ message: "Prescription not found" });
     }
 
     prescription.status = "rejected";
+    prescription.rejectReason = reason || "No reason provided"; // ✅ Store reason
+
     await prescription.save();
 
-    // Notify the patient in real-time
+    // ✅ Emit socket event to notify patient
     const io = req.app.get("socketio");
     io.emit(`prescriptionUpdate-${prescription.patient}`, {
-      message: `❌ Your prescription for ${prescription.medication} has been rejected.`,
+      id: prescription._id,
+      status: "rejected",
+      rejectReason: prescription.rejectReason, // ✅ Send reason
+      message: `Your prescription for ${prescription.medication} was rejected.`,
     });
 
-    res.json({ message: "Prescription rejected successfully" });
+    res.json({ message: "Prescription rejected", prescription });
   } catch (error) {
-    res.status(500).json({ message: "Server error: " + error.message });
+    console.error("❌ Error rejecting prescription:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };

@@ -2,12 +2,13 @@
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import './Footer.css';
+import MotionReveal from '../../ui/motionReveal';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    
+    <MotionReveal>
     <footer className="footer glass-card">
       <div className="container">
         <div className="footer-content">
@@ -61,6 +62,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+    </MotionReveal>
   );
 };
 
