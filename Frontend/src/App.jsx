@@ -28,7 +28,7 @@ import Messages from "./PharmacistsPage/Messages";
 import Prescription from "./PharmacistsPage/Prescription";
 import Profile from "./PharmacistsPage/Profile";
 import Appointments from "./PharmacistsPage/Appointments";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 // Layout component for conditional rendering
 function Layout({ children }) {
