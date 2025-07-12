@@ -16,14 +16,18 @@ const app = express();
 const server = http.createServer(app); // ✅ Attach Express to HTTP server
 
 // ✅ Enable CORS and JSON Parsing
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  credentials: true
+}));
 app.use(express.json());
 
 // ✅ Initialize Socket.io (BEFORE routes)
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // ✅ Ensure this matches your frontend URL
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     methods: ["GET", "POST"],
+    credentials: true
   },
 });
 
