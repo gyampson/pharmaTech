@@ -5,7 +5,7 @@ import axios from "axios";
 
 // ✅ Now, you can call `getPatientPrescriptions(token)` instead of defining it again
 
-const API_URL = "http://localhost:5000/api/patient";
+const API_URL = "https://pharmatech-yepi.onrender.com/api/patient";
 
 
 export const fetchPrescriptionsForUser = async (token) => {

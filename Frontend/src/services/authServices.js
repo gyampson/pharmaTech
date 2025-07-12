@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/auth"; // Update this with your backend URL
+const API_URL = "https://pharmatech-yepi.onrender.com/api/auth"; // Update this with your backend URL
 
 // Register User
 export const registerUser = async (userData) => {

@@ -6,7 +6,7 @@ import {
 import { io } from "socket.io-client";
 import "./Prescription.css";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://pharmatech-yepi.onrender.com");
 
 const PatientPrescriptions = () => {
   const [user, setUser] = useState(() =>

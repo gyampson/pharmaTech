@@ -8,7 +8,7 @@ import io from "socket.io-client";
 import "./PatientsDashboard.css"; // ✅ Now using the scoped styleFs
 import { useNavigate } from "react-router-dom";
 
-const socket = io("http://localhost:5000", {
+const socket = io("https://pharmatech-yepi.onrender.com", {
   transports: ["websocket", "polling"],
 });
 const PatientDashboard = () => {

@@ -16,16 +16,16 @@ const app = express();
 const server = http.createServer(app); // ✅ Attach Express to HTTP server
 
 // ✅ Enable CORS and JSON Parsing
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
-  credentials: true
+    origin: 'https://pharmatech-10.onrender.com' // Replace with your actual frontend URL
 }));
 app.use(express.json());
 
 // ✅ Initialize Socket.io (BEFORE routes)
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: process.env.FRONTEND_URL || "https://pharmatech-10.onrender.com",
     methods: ["GET", "POST"],
     credentials: true
   },

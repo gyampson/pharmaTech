@@ -6,7 +6,7 @@ import {
 import io from "socket.io-client";
 import "./Prescription.css";
 
-const socket = io("http://localhost:5000"); // ✅ Connect to backend socket
+const socket = io("https://pharmatech-yepi.onrender.com"); // ✅ Connect to backend socket
 
 function PatientPrescriptions() {
   const [formData, setFormData] = useState({

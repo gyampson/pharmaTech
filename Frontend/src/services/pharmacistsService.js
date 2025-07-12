@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getPendingPrescriptions, approvePrescription, rejectPrescription } from "./prescriptionService";
 
-const API_URL = "http://localhost:5000/api/pharmacist";
+const API_URL = "https://pharmatech-yepi.onrender.com/api/pharmacist";
 
 // ✅ Fetch upcoming appointments
 export const getPatientAppointments = async (token) => {
@@ -13,7 +13,7 @@ export const getPatientAppointments = async (token) => {
 
 
 export const getPharmacistAppointments = async (token) => {
-  const response = await axios.get("http://localhost:5000/api/pharmacist/appointments", {
+  const response = await axios.get("https://pharmatech-yepi.onrender.com/api/pharmacist/appointments", {
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -39,7 +39,7 @@ export const rescheduleAppointment = async (id, newDate, token) => {
     console.log(`🔄 Sending reschedule request for appointment ID: ${id}, New Date: ${newDate}`);
 
     const response = await axios.put(
-      `http://localhost:5000/api/pharmacist/appointments/${id}/reschedule`,
+      `https://pharmatech-yepi.onrender.com/api/pharmacist/appointments/${id}/reschedule`,
       { newDate }, // ✅ Ensure newDate is in request body
       {
         headers: { Authorization: `Bearer ${token}` },

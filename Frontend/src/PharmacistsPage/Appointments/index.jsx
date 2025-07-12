@@ -5,7 +5,7 @@ import { Calendar, Clock, MapPin, User, CheckCircle, XCircle, RefreshCw, Trash2 
 import "./Appointments.css";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:5000", { transports: ["websocket", "polling"] });
+const socket = io("https://pharmatech-yepi.onrender.com", { transports: ["websocket", "polling"] });
 const PharmacistDashboard = () => {
   const navigate = useNavigate();
   const [user] = useState(() => JSON.parse(localStorage.getItem("userData") || "{}"));

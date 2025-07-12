@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/prescriptions"; // ✅ Corrected API URL
+const API_URL = "https://pharmatech-yepi.onrender.com/api/prescriptions"; // ✅ Corrected API URL
 
 // ✅ Fetch patient prescriptions
 export const getPatientPrescriptions = async (token) => {
