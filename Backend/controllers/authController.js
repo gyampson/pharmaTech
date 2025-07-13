@@ -5,15 +5,15 @@ import jwt from "jsonwebtoken";
 // REGISTER USER
 export const register = async (req, res) => {
   try {
-    let { name, email, password, role } = req.body; // Use 'let' to reassign
+    let { name, email, password, role } = req.body;
 
-    // Trim whitespace and convert email to lowercase for consistency
+    // Trim whitespace and normalize email
     name = name ? name.trim() : name;
     email = email ? email.trim().toLowerCase() : email;
     password = password ? password.trim() : password;
     role = role ? role.trim() : role;
 
-    console.log('Registering user with:', { name, email, password: '[HIDDEN]', role }); // Debug log
+    console.log('Registering user with:', { name, email, password: '[HIDDEN]', role });
 
     if (!name || !email || !password || !role) {
       return res.status(400).json({ message: "All fields are required" });
@@ -21,25 +21,22 @@ export const register = async (req, res) => {
 
     const userExists = await User.findOne({ email });
     if (userExists) {
-      console.log('Registration failed: User already exists with email:', email); // Debug log
+      console.log('Registration failed: User already exists with email:', email);
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    console.log('Hashed password:', hashedPassword); // Debug log
-
-    const user = await User.create({ name, email, password: hashedPassword, role });
+    // No hashing here! Let the model do it
+    const user = await User.create({ name, email, password, role });
 
     if (user) {
-      console.log('User registered successfully:', user.email); // Debug log
+      console.log('User registered successfully:', user.email);
       res.status(201).json({ message: "Registration successful! Redirecting to login...", user });
     } else {
-      console.log('Registration failed: Invalid user data for email:', email); // Debug log
+      console.log('Registration failed: Invalid user data for email:', email);
       res.status(400).json({ message: "Invalid user data" });
     }
   } catch (error) {
-    console.error("Server Error during registration:", error); // Debug log
+    console.error("Server Error during registration:", error);
     res.status(500).json({ message: "Server Error: " + error.message });
   }
 };
