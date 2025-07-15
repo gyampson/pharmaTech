@@ -32,7 +32,7 @@ export const getPatientAppointments = async (token) => {
 
 export const bookAppointment = async (appointmentData, token) => {
   const response = await axios.post(
-    "http://localhost:5000/api/patient/appointments/book",
+    "https://pharmatech-yepi.onrender.com/api/patient/appointments/book",
     appointmentData,
     {
       headers: { Authorization: `Bearer ${token}` },
@@ -44,7 +44,7 @@ export const bookAppointment = async (appointmentData, token) => {
 
 export const cancelAppointment = async (id, token) => {
   const response = await axios.delete(
-    `http://localhost:5000/api/patient/appointments/${id}/cancel`,
+    `https://pharmatech-yepi.onrender.com/api/patient/appointments/${id}/cancel`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }
